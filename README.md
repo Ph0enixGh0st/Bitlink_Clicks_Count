@@ -23,7 +23,7 @@ For example, if you print `.env` content, you will see:
 
 ```bash
 $ cat .env
-BITLINK_TOKEN=e76e2120b1a27496b1ab1b080fc5dbda09f399c5
+BITLINK_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 #### How to get
 * Register an application [API Bitly]
