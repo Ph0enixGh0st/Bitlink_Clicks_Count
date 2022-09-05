@@ -8,7 +8,7 @@ import requests
 from dotenv import load_dotenv
 
 
-def is_bitlink(link, token):
+def check_bitlink(link, token):
 
     headers = {"Authorization": "Bearer {}".format(token)}
     bitlink = urlparse(link)
@@ -20,12 +20,16 @@ def is_bitlink(link, token):
 
 def get_clicks_stats(bitlink, token):
 
+    bitlink = urlparse(bitlink)
     headers = {"Authorization": "Bearer {}".format(token)}
     payload = {"unit": "month", "units": "-1"}
     clicks_count = requests.get(
-        f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary",
+        f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink.netloc}{bitlink.path}/clicks/summary",
         params=payload,
         headers=headers)
+    #return (f"{bitlink.netloc}{bitlink.path}", clicks_count.text)
+    #print(bitlink)
+    #print(clicks_count.text)
     return clicks_count.text
 
 
@@ -42,22 +46,6 @@ def make_bitlink(link, token):
     return created_bitlink["link"]
 
 
-def print_bitlink_stats(link, token):
-
-    bitlink = make_bitlink(link, token)
-    full_bitlink = bitlink
-    bitlink = urlparse(bitlink)
-
-    return full_bitlink, get_clicks_stats(f"{bitlink.netloc}{bitlink.path}", token)
-
-
-def given_bitlink_stats(link, token):
-
-    link = urlparse(link)
-
-    return get_clicks_stats(f"{link.netloc}{link.path}", token)
-
-
 def main():
 
     load_dotenv()
@@ -72,12 +60,12 @@ def main():
     
     link = args.link
 
-    if not is_bitlink(link, token):
-        full_bitlink, output_clicks = print_bitlink_stats(link, token)
+    if not check_bitlink(link, token):
+        full_bitlink = print_bitlink(link, token)#, output_clicks# 
         print(f"Битлинк ", full_bitlink)
         
     else:
-        output_clicks = given_bitlink_stats(link, token)
+        output_clicks = get_clicks_stats(link, token)
         print(output_clicks)
 
 
