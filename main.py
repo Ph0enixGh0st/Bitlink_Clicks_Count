@@ -18,7 +18,7 @@ def check_bitlink(link, token):
     return response.ok
 
 
-def get_clicks_stats(bitlink, token):
+def count_clicks(bitlink, token):
 
     bitlink = urlparse(bitlink)
     headers = {"Authorization": "Bearer {}".format(token)}
@@ -65,7 +65,7 @@ def main():
         print(f"Битлинк ", full_bitlink)
         
     else:
-        output_clicks = get_clicks_stats(link, token)
+        output_clicks = count_clicks(link, token)
         print(output_clicks)
 
 
