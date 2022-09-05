@@ -8,7 +8,7 @@ import requests
 from dotenv import load_dotenv
 
 
-def check_bitlink(link, token):
+def is_bitlink(link, token):
 
     headers = {"Authorization": "Bearer {}".format(token)}
     bitlink = urlparse(link)
@@ -27,10 +27,8 @@ def count_clicks(bitlink, token):
         f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink.netloc}{bitlink.path}/clicks/summary",
         params=payload,
         headers=headers)
-    #return (f"{bitlink.netloc}{bitlink.path}", clicks_count.text)
-    #print(bitlink)
-    #print(clicks_count.text)
-    return clicks_count.text
+    data = clicks_count.json()
+    return data["total_clicks"]
 
 
 def make_bitlink(link, token):
@@ -60,13 +58,13 @@ def main():
     
     link = args.link
 
-    if not check_bitlink(link, token):
-        full_bitlink = print_bitlink(link, token)#, output_clicks# 
+    if not is_bitlink(link, token):
+        full_bitlink = make_bitlink(link, token)#, output_clicks# 
         print(f"Битлинк ", full_bitlink)
         
     else:
         output_clicks = count_clicks(link, token)
-        print(output_clicks)
+        print(f"Количество кликов по битлиинку:", output_clicks)
 
 
 if __name__ == '__main__':
