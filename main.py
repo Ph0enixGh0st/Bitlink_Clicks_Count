@@ -27,8 +27,8 @@ def count_clicks(bitlink, token):
         f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink.netloc}{bitlink.path}/clicks/summary",
         params=payload,
         headers=headers)
-    data = request.json()
-    return data["total_clicks"]
+    stats = request.json()
+    return stats["total_clicks"]
 
 
 def make_bitlink(link, token):
