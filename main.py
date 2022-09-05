@@ -23,11 +23,11 @@ def count_clicks(bitlink, token):
     bitlink = urlparse(bitlink)
     headers = {"Authorization": "Bearer {}".format(token)}
     payload = {"unit": "month", "units": "-1"}
-    request = requests.get(
+    clicks_summary = requests.get(
         f"https://api-ssl.bitly.com/v4/bitlinks/{bitlink.netloc}{bitlink.path}/clicks/summary",
         params=payload,
         headers=headers)
-    stats = request.json()
+    stats = clicks_summary.json()
     return stats["total_clicks"]
 
 
