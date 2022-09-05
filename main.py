@@ -64,7 +64,7 @@ def main():
         
     else:
         output_clicks = count_clicks(link, token)
-        print(f"Количество кликов по битлиинку:", output_clicks)
+        print(f"Количество кликов по битлинку:", output_clicks)
 
 
 if __name__ == '__main__':
